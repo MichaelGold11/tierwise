@@ -1,0 +1,95 @@
+{
+  "archetypes": [
+    {
+      "name": "Anxious Planner",
+      "key": "anxious_planner",
+      "color": "#EF4444",
+      "percentage": 0.22,
+      "thresholds": {
+        "loss_aversion": 0.70,
+        "neuroticism": 0.70
+      },
+      "mean_values": {
+        "loss_aversion": 0.82,
+        "neuroticism": 0.78,
+        "conscientiousness": 0.80,
+        "present_bias": 0.30
+      },
+      "behavioral_signature": "Converts on loss framing and scarcity. Stress spikes at ambiguous pricing. Resistant to gain framing.",
+      "best_nudge": "loss_framing",
+      "description": "Driven by fear of missing out and losing access. Highly responsive to countdown timers, scarcity signals, and 'you'll lose X' messaging."
+    },
+    {
+      "name": "Social Follower",
+      "key": "social_follower",
+      "color": "#3B82F6",
+      "percentage": 0.28,
+      "thresholds": {
+        "social_conformity": 0.70
+      },
+      "mean_values": {
+        "social_conformity": 0.85,
+        "extraversion": 0.72,
+        "authority_trust": 0.55,
+        "loss_aversion": 0.50
+      },
+      "behavioral_signature": "Follows crowd signals. Converts on Most Popular badges and user counts. Ignores feature tables.",
+      "best_nudge": "social_proof",
+      "description": "Needs social validation before committing. '50,000 teams use Pro' converts this segment. Peer testimonials outperform feature lists."
+    },
+    {
+      "name": "Spontaneous Mover",
+      "key": "spontaneous_mover",
+      "color": "#F97316",
+      "percentage": 0.20,
+      "thresholds": {
+        "present_bias": 0.70,
+        "openness": 0.65
+      },
+      "mean_values": {
+        "present_bias": 0.82,
+        "openness": 0.80,
+        "cognitive_bandwidth": 0.30,
+        "loss_aversion": 0.28
+      },
+      "behavioral_signature": "Bounces off complex pricing pages. Converts only on single bold value statement. Hates annual commitments.",
+      "best_nudge": "simplicity",
+      "description": "Impulsive decision-maker who acts on immediate value. Complex pricing tables cause page abandonment. One bold CTA converts."
+    },
+    {
+      "name": "Authority Truster",
+      "key": "authority_truster",
+      "color": "#22C55E",
+      "percentage": 0.18,
+      "thresholds": {
+        "authority_trust": 0.75,
+        "conscientiousness": 0.70
+      },
+      "mean_values": {
+        "authority_trust": 0.88,
+        "conscientiousness": 0.80,
+        "agreeableness": 0.75,
+        "social_conformity": 0.35
+      },
+      "behavioral_signature": "Follows recommended tier without extensive evaluation. Converts on official signals. Unmoved by peer proof.",
+      "best_nudge": "authority",
+      "description": "Trusts expert recommendations and official badges. 'Recommended by industry leaders' and 'Best for teams' labels drive conversion."
+    },
+    {
+      "name": "Indifferent Drifter",
+      "key": "indifferent_drifter",
+      "color": "#A855F7",
+      "percentage": 0.12,
+      "thresholds": {},
+      "mean_values": {
+        "loss_aversion": 0.25,
+        "neuroticism": 0.22,
+        "default_stickiness": 0.75,
+        "authority_trust": 0.30
+      },
+      "behavioral_signature": "Resists all conversion. Stays free indefinitely. Calibrates realistic conversion ceiling.",
+      "best_nudge": "none",
+      "description": "Content with free tier. No urgency, no social pressure. Long-term nurture or usage-based triggers are the only conversion path."
+    }
+  ]
+}

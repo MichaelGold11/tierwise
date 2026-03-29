@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TierWise — Behavioral Pricing Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header>
+  <span class="logo">TierWise</span>
+  <span class="tagline">Behavioral Pricing Intelligence</span>
+  <span class="spacer"></span>
+  <span class="pill pill-neutral" id="status-badge">Ready</span>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP PROGRESS INDICATOR
+       ══════════════════════════════════════════════════════ -->
+  <nav id="step-nav">
+    <div class="step-item active" data-step="1">
+      <div class="step-bubble">1</div>
+      <div class="step-name">Upload</div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item" data-step="2">
+      <div class="step-bubble">2</div>
+      <div class="step-name">Pricing Review</div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item" data-step="3">
+      <div class="step-bubble">3</div>
+      <div class="step-name">Configure</div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item" data-step="4">
+      <div class="step-bubble">4</div>
+      <div class="step-name">Simulation</div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item" data-step="5">
+      <div class="step-bubble">5</div>
+      <div class="step-name">KPI Dashboard</div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item" data-step="6">
+      <div class="step-bubble">6</div>
+      <div class="step-name">Report</div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 1: UPLOAD / PASTE
+       ══════════════════════════════════════════════════════ -->
+  <section id="section-step1">
+    <div class="section-label">Step 1 — Upload or paste your pricing document</div>
+
+    <div class="upload-grid">
+
+      <!-- File drop zone -->
+      <div id="drop-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+        <input type="file" id="file-input" accept=".pdf,.docx,.doc,.txt,.md" onchange="handleFileSelect(event)" />
+        <div class="upload-icon">⬆</div>
+        <div class="upload-title">Drop your pricing document here</div>
+        <div class="upload-sub">or click to browse your files</div>
+        <div class="upload-types">
+          <span class="type-badge">PDF</span>
+          <span class="type-badge">DOCX</span>
+          <span class="type-badge">TXT</span>
+          <span class="type-badge">MD</span>
+        </div>
+        <div id="file-name" style="margin-top:12px; font-size:0.75rem; color:#818CF8; font-weight:600;"></div>
+      </div>
+
+      <!-- Paste panel -->
+      <div class="paste-panel">
+        <label for="paste-input">Or paste pricing text directly</label>
+        <textarea
+          id="paste-input"
+          placeholder="Paste your pricing structure here...
+
+Example:
+Starter: $9/month
+  - 5 projects
+  - Basic analytics
+  - Email support
+
+Growth: $29/month  (Most Popular)
+  - Unlimited projects
+  - Advanced analytics
+  - Priority support
+  - API access
+
+Enterprise: $99/month
+  - Everything in Growth
+  - SSO &amp; admin controls
+  - Dedicated account manager
+  - Custom integrations"
+        ></textarea>
+
+        <div class="controls-row">
+          <button class="btn btn-primary" id="btn-parse" onclick="parsePricing()" style="flex:1">
+            Parse Pricing Document →
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 2: PARSED PRICING REVIEW
+       ══════════════════════════════════════════════════════ -->
+  <section id="section-step2" class="step-hidden">
+    <div class="section-label">Step 2 — Review parsed pricing structure</div>
+
+    <!-- Parse loading (inline, shown during parsing) -->
+    <div id="parse-loading-row" class="parse-loading" style="display:none;">
+      <div class="spinner"></div>
+      <span id="parse-status-text">Claude is reading your pricing document and extracting tier structure, framing signals, and behavioral metadata…</span>
+    </div>
+
+    <!-- Parsed result (shown after parsing) -->
+    <div id="parsed-result" style="display:none;">
+      <div class="parsed-header">
+        <span class="product-name" id="parsed-product-name">Your Product</span>
+        <span class="parse-method-badge" id="parse-method-badge">✦ Claude AI</span>
+        <span class="parsed-meta" id="parsed-meta"></span>
+      </div>
+
+      <div class="tier-cards" id="tier-cards-container"></div>
+
+      <div class="step-advance-row">
+        <div class="step-advance-info">
+          Pricing structure confirmed — ready to configure your simulation audience.
+        </div>
+        <button class="btn btn-primary" onclick="advanceToStep3()">
+          Configure Audience →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 3: CONFIGURE AUDIENCE
+       ══════════════════════════════════════════════════════ -->
+  <section id="section-step3" class="step-hidden">
+    <div class="section-label">Step 3 — Configure simulation audience</div>
+
+    <div class="configure-card">
+      <div class="configure-intro">
+        <h3>How many virtual customers should we simulate?</h3>
+        <p>TierWise creates virtual customers with distinct psychological profiles — each with their own income bracket, price sensitivity, decision-making style, and behavioral triggers. More agents give you more accurate results.</p>
+      </div>
+
+      <div class="agent-options">
+        <label class="agent-option" onclick="selectAgentCount(100, this)">
+          <input type="radio" name="agent-count-radio" value="100" />
+          <div class="agent-option-body">
+            <div class="agent-option-num">100</div>
+            <div class="agent-option-label">Quick test</div>
+            <div class="agent-option-sub">~3 seconds</div>
+          </div>
+        </label>
+        <label class="agent-option" onclick="selectAgentCount(250, this)">
+          <input type="radio" name="agent-count-radio" value="250" />
+          <div class="agent-option-body">
+            <div class="agent-option-num">250</div>
+            <div class="agent-option-label">Balanced</div>
+            <div class="agent-option-sub">~5 seconds</div>
+          </div>
+        </label>
+        <label class="agent-option selected" onclick="selectAgentCount(500, this)">
+          <input type="radio" name="agent-count-radio" value="500" checked />
+          <div class="agent-option-body">
+            <div class="agent-option-num">500</div>
+            <div class="agent-option-label">Recommended</div>
+            <div class="agent-option-sub">~8 seconds</div>
+          </div>
+        </label>
+      </div>
+
+      <div class="archetype-preview">
+        <div class="arch-prev-label">Your simulated customers will include:</div>
+        <div class="arch-prev-items">
+          <span class="arch-prev-chip" style="border-color:#EF4444;color:#EF4444;">Anxious Planners</span>
+          <span class="arch-prev-chip" style="border-color:#3B82F6;color:#3B82F6;">Social Followers</span>
+          <span class="arch-prev-chip" style="border-color:#F97316;color:#F97316;">Spontaneous Movers</span>
+          <span class="arch-prev-chip" style="border-color:#22C55E;color:#22C55E;">Authority Trusters</span>
+          <span class="arch-prev-chip" style="border-color:#A855F7;color:#A855F7;">Indifferent Drifters</span>
+        </div>
+      </div>
+
+      <div class="step-advance-row">
+        <div class="step-advance-info">
+          Each virtual customer runs through a behavioral decision model before choosing a tier.
+        </div>
+        <button class="btn btn-primary" id="btn-run-sim" onclick="runSimulation()">
+          Run Simulation →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 4: SIMULATION RUNNING
+       ══════════════════════════════════════════════════════ -->
+  <section id="section-step4" class="step-hidden">
+    <div class="section-label">Step 4 — Simulation running</div>
+
+    <div class="sim-stage">
+      <div class="sim-canvas-wrap">
+        <div id="sim-dot-grid" class="sim-dot-grid"></div>
+        <div class="sim-overlay-label" id="sim-count-label">0 decisions made</div>
+      </div>
+
+      <div class="sim-progress-wrap">
+        <div class="sim-progress-bar">
+          <div class="sim-progress-fill" id="sim-progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="sim-narration" id="sim-narration">
+        Initializing simulation…
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 5: KPI DASHBOARD
+       ══════════════════════════════════════════════════════ -->
+  <section id="section-step5" class="step-hidden">
+    <div class="section-label">Step 5 — KPI Dashboard</div>
+
+    <!-- Business KPIs -->
+    <div class="biz-kpi-row">
+
+      <div class="biz-kpi-card">
+        <div class="biz-kpi-icon">💰</div>
+        <div class="biz-kpi-label">Projected Monthly Revenue</div>
+        <div class="biz-kpi-value accent" id="kpi-mrr">—</div>
+        <div class="biz-kpi-sub" id="kpi-mrr-sub">from simulated users</div>
+      </div>
+
+      <div class="biz-kpi-card">
+        <div class="biz-kpi-icon">📈</div>
+        <div class="biz-kpi-label">Paid Conversion Rate</div>
+        <div class="biz-kpi-value green" id="kpi-conv-rate">—</div>
+        <div class="biz-kpi-benchmark" id="kpi-conv-benchmark">
+          <span class="benchmark-label">Industry avg:</span>
+          <span class="benchmark-value">~5% freemium SaaS</span>
+        </div>
+      </div>
+
+      <div class="biz-kpi-card">
+        <div class="biz-kpi-icon">⚠️</div>
+        <div class="biz-kpi-label">Revenue Left on the Table</div>
+        <div class="biz-kpi-value gold" id="kpi-left-on-table">—</div>
+        <div class="biz-kpi-sub" id="kpi-left-on-table-sub">unrealized from free users</div>
+      </div>
+
+      <div class="biz-kpi-card">
+        <div class="biz-kpi-icon">🎯</div>
+        <div class="biz-kpi-label">Biggest Win Available</div>
+        <div class="biz-kpi-value accent2" id="kpi-biggest-win">—</div>
+        <div class="biz-kpi-sub" id="kpi-biggest-win-sub">if top opportunity converts</div>
+      </div>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+      <!-- Archetype ranked list -->
+      <div class="data-card">
+        <h3>How Each Customer Type Performed</h3>
+        <p class="card-intro">Ranked by conversion rate. ⚠ means this group is converting well below their behavioral potential.</p>
+        <div id="arch-ranked-list"></div>
+      </div>
+
+      <!-- Tier distribution -->
+      <div class="data-card">
+        <h3>Where Your Customers Ended Up</h3>
+        <div id="tier-funnel"></div>
+      </div>
+
+    </div>
+
+    <!-- Signal effectiveness (if applicable) -->
+    <div class="data-card" id="signal-eff-card" style="display:none; margin-bottom:16px;">
+      <h3>Framing Signal Effectiveness</h3>
+      <div id="signal-eff-rows"></div>
+    </div>
+
+    <!-- Advance to report -->
+    <div class="step-advance-row">
+      <div class="step-advance-info">
+        Simulation complete. Generate a full behavioral insight report with recommendations tailored to your results.
+      </div>
+      <button class="btn btn-primary" id="btn-analyze" onclick="runAnalysis()">
+        Generate Full Report →
+      </button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 6: REPORT AND RECOMMENDATIONS
+       ══════════════════════════════════════════════════════ -->
+  <section id="section-step6" class="step-hidden">
+    <div class="section-label">Step 6 — Report &amp; Recommendations</div>
+    <div id="report-content"></div>
+
+    <!-- Regenerate pricing model (appears after report loads) -->
+    <div id="regen-trigger" style="display:none;">
+      <div class="regen-cta">
+        <div class="regen-cta-text">
+          <div class="regen-cta-title">Want Claude to apply these recommendations for you?</div>
+          <div class="regen-cta-sub">Generate a revised pricing model with specific changes to your tier structure, prices, features, and framing copy — built directly from your simulation results.</div>
+        </div>
+        <button class="btn btn-primary" id="btn-regen" onclick="regeneratePricing()">
+          Generate Improved Pricing Model →
+        </button>
+      </div>
+    </div>
+
+    <!-- Regenerated model output -->
+    <div id="regen-output" style="display:none;"></div>
+  </section>
+
+</main>
+
+<script src="simulation.js"></script>
+</body>
+</html>
