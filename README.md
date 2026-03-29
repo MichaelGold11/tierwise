@@ -1,3 +1,7 @@
+> © 2026 Michael Goldberg. All Rights Reserved.
+> Published for hackathon judging purposes only.
+> Commercial use prohibited without written permission.
+
 # TierWise — Behavioral Pricing Intelligence
 
 TierWise generates 500 AI agents with unique financial attributes 
